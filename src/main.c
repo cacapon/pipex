@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/11 21:25:20 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/11 21:51:56 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_command_path(char *cmd, char **envp)
 	char	*full_path;
 	int		i;
 
-	path = get_path(envp); 
+	path = get_path(envp);
 	dirs = ft_split(path, ':');
 	i = 0;
 	while (dirs[i])
