@@ -6,11 +6,22 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/11 21:12:30 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/11 21:25:20 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+char	*get_path(char **envp)
+{
+	while (*envp)
+	{
+		if (ft_strncmp(*envp, "PATH=", 5) == 0)
+			return (*envp + 5);
+		envp++;
+	}
+	return (NULL);
+}
 
 char	*get_command_path(char *cmd, char **envp)
 {
@@ -19,7 +30,7 @@ char	*get_command_path(char *cmd, char **envp)
 	char	*full_path;
 	int		i;
 
-	path = getenv("PATH");
+	path = get_path(envp); 
 	dirs = ft_split(path, ':');
 	i = 0;
 	while (dirs[i])
@@ -73,8 +84,7 @@ void	exec_cmd2(int pipefd[2], char *cmd2, char *file2, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	int		pipefd[2];
+	int	pipefd[2];
 
 	if (argc != 5)
 		return (1);
