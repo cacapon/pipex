@@ -5,23 +5,33 @@ CFLAGS = -Wall -Wextra -Werror
 
 BLD_DIR = build
 SRC_DIR = src
+FT_DIR  = lib/libft
 
 SRCS = $(SRC_DIR)/main.c
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BLD_DIR)/%.o)
 
 INCS = -Iinc/ -Ilib/libft/
-LIBS = -Llib/libft/ -lft
+LIBS = -L$(FT_DIR) -lft
 
 # Rules
 all: $(NAME)
 
-$(NAME): $(OBJS)
+## main
+$(NAME): $(FT_DIR)/libft.a $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 $(BLD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(BLD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
 
+## libft
+$(FT_DIR)/libft.a: $(FT_DIR)/libft.h
+	$(MAKE) -C $(FT_DIR) bonus
+
+$(FT_DIR)/libft.h:
+	git submodule update -i --recursive
+
+## cmds
 clean:
 	rm -rf $(BLD_DIR)
 
