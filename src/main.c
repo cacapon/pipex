@@ -82,18 +82,49 @@ void	exec_cmd2(int pipefd[2], char *cmd2, char *file2, char **envp)
 	exit(1);
 }
 
+void exec(char *cmd, char **envp, int in_fd, int out_fd)
+{
+
+}
+
+int	file_error_check(int file_fd[3])
+{
+	int	err_flg;
+
+	err_flg = 0;
+	if (file_fd[0] == -1)
+    	perror("Error opening input file");
+	if (file_fd[1] == -1)
+    	perror("Error opening output file");
+	if (file_fd[2] == -1)
+    	perror("Error opening tmp file");
+	if (file_fd[0] == -1 || file_fd[1] == -1 || file_fd[2] == -1)
+	{
+		err_flg = 1;
+		if (file_fd[0] != -1)
+			close(file_fd[0]);
+		if (file_fd[1] != -1)
+			close(file_fd[1]);
+		if (file_fd[2] != -1)
+			close(file_fd[2]);
+	}
+	return (err_flg);	
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	int	pipefd[2];
+	int	file_fd[3];
 
-	if (argc != 5)
+	file_fd[0] = open(argv[1], O_RDONLY);
+	file_fd[1] = open(argv[3], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	file_fd[2] = open("/tmp", O_TMPFILE | O_RDWR, 0600);
+	if (file_error_check(file_fd))
 		return (1);
-	pipe(pipefd);
+	if (argc != 5)
+		return (1);	
 	if (fork() == 0)
-		exec_cmd1(pipefd, argv[1], argv[2], envp);
+		exec(argv[2], envp, file_fd[0], file_fd[2]);
 	if (fork() == 0)
-		exec_cmd2(pipefd, argv[3], argv[4], envp);
-	close(pipefd[1]);
-	close(pipefd[0]);
+		exec(argv[3], envp, file_fd[2], file_fd[3]);
 	return (0);
 }
