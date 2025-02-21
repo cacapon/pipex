@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/21 15:54:28 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:06:29 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ char	*get_command_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	exec_common(int in, int out, int close_fd, char *cmd, char **envp)
+void	exec_common(t_fds fds, char *cmd, char **envp)
 {
 	char	*bin_path;
 	char	**args;
 
-	dup2(in, STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
-	close(close_fd);
+	dup2(fds.in, STDIN_FILENO);
+	dup2(fds.out, STDOUT_FILENO);
+	close(fds.close);
 	args = ft_split(cmd, ' ');
 	if (!args)
 		exit(1);
@@ -64,8 +64,9 @@ void	exec_common(int in, int out, int close_fd, char *cmd, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	pipefd[2];
-	int	i_o[2];
+	int		pipefd[2];
+	int		i_o[2];
+	t_fds	fds;
 
 	if (argc != 5)
 		return (1);
@@ -75,9 +76,15 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	pipe(pipefd);
 	if (fork() == 0)
-		exec_common(i_o[0], pipefd[1], pipefd[0], argv[2], envp);
+	{
+		fds = (t_fds){.in = i_o[0], .out = pipefd[1], .close = pipefd[0]};
+		exec_common(fds, argv[2], envp);
+	}
 	if (fork() == 0)
-		exec_common(pipefd[0], i_o[1], pipefd[1], argv[3], envp);
+	{
+		fds = (t_fds){.in = pipefd[0], .out = i_o[1], .close = pipefd[1]};
+		exec_common(fds, argv[3], envp);
+	}
 	close(pipefd[1]);
 	close(pipefd[0]);
 	return (0);
