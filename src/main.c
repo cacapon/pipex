@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/11 21:51:56 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/21 15:28:11 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,19 @@ char	*get_command_path(char *cmd, char **envp)
 	return (NULL);
 }
 
+void	exec_common(char **args, char **envp)
+{
+	char	*bin_path;
+
+	bin_path = get_command_path(args[0], envp);
+	execve(bin_path, args, envp);
+	exit(1);
+}
+
 void	exec_cmd1(int pipefd[2], char *file1, char *cmd1, char **envp)
 {
 	int		fd;
 	char	**args;
-	char	*bin_path;
 
 	fd = open(file1, O_RDONLY);
 	if (fd < 0)
@@ -59,16 +67,13 @@ void	exec_cmd1(int pipefd[2], char *file1, char *cmd1, char **envp)
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	args = ft_split(cmd1, ' ');
-	bin_path = get_command_path(args[0], envp);
-	execve(bin_path, args, envp);
-	exit(1);
+	exec_common(args, envp);
 }
 
 void	exec_cmd2(int pipefd[2], char *cmd2, char *file2, char **envp)
 {
 	int		fd;
 	char	**args;
-	char	*bin_path;
 
 	fd = open(file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
@@ -77,9 +82,7 @@ void	exec_cmd2(int pipefd[2], char *cmd2, char *file2, char **envp)
 	dup2(fd, STDOUT_FILENO);
 	close(pipefd[1]);
 	args = ft_split(cmd2, ' ');
-	bin_path = get_command_path(args[0], envp);
-	execve(bin_path, args, envp);
-	exit(1);
+	exec_common(args, envp);
 }
 
 int	main(int argc, char **argv, char **envp)
