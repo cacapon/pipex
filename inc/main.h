@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:19 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/21 16:17:46 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/22 10:36:07 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ typedef struct s_fds
 	int		in;
 	int		out;
 	int		close;
+	int		pipe[2];
 }			t_fds;
 #endif

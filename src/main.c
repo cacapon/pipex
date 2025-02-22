@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/21 16:27:22 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/22 10:38:10 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	exec_common(t_fds fds, char *cmd, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		pipefd[2];
 	int		i_o[2];
 	t_fds	fds;
 	pid_t	pid[2];
@@ -75,22 +74,22 @@ int	main(int argc, char **argv, char **envp)
 	i_o[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (i_o[0] < 0 || i_o[1] < 0)
 		return (perror("open"), 1);
-	if (pipe(pipefd) == -1)
+	if (pipe(fds.pipe) == -1)
 		return (perror("pipe"), 1);
 	pid[0] = fork();
 	if (pid[0] == 0)
 	{
-		fds = (t_fds){.in = i_o[0], .out = pipefd[1], .close = pipefd[0]};
+		fds = (t_fds){.in = i_o[0], .out = fds.pipe[1], .close = fds.pipe[0]};
 		exec_common(fds, argv[2], envp);
 	}
 	pid[1] = fork();
 	if (pid[1] == 0)
 	{
-		fds = (t_fds){.in = pipefd[0], .out = i_o[1], .close = pipefd[1]};
+		fds = (t_fds){.in = fds.pipe[0], .out = i_o[1], .close = fds.pipe[1]};
 		exec_common(fds, argv[3], envp);
 	}
-	close(pipefd[1]);
-	close(pipefd[0]);
+	close(fds.pipe[1]);
+	close(fds.pipe[0]);
 	close(i_o[0]);
 	close(i_o[1]);
 	waitpid(pid[0], NULL, 0);
