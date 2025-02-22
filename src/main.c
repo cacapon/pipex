@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/22 10:38:10 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/22 10:44:09 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ void	exec_common(t_fds fds, char *cmd, char **envp)
 	exit(1);
 }
 
+static int	_err_check(int i_o[2], t_fds *fds)
+{
+	if (i_o[0] < 0 || i_o[1] < 0)
+		return (perror("open"), 1);
+	if (pipe(fds->pipe) == -1)
+		return (perror("pipe"), 1);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		i_o[2];
@@ -72,10 +81,8 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	i_o[0] = open(argv[1], O_RDONLY);
 	i_o[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (i_o[0] < 0 || i_o[1] < 0)
-		return (perror("open"), 1);
-	if (pipe(fds.pipe) == -1)
-		return (perror("pipe"), 1);
+	if (_err_check(i_o, &fds))
+		return (1);
 	pid[0] = fork();
 	if (pid[0] == 0)
 	{
