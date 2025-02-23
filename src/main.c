@@ -6,36 +6,13 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 12:31:54 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 12:37:43 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-char	*get_command_path(char *cmd, char **envp)
-{
-	char	*path;
-	char	**dirs;
-	char	*full_path;
-	int		i;
-
-	path = get_path(envp);
-	dirs = ft_split(path, ':');
-	i = 0;
-	while (dirs[i])
-	{
-		full_path = ft_calloc(1, ft_strlen(dirs[i]) + ft_strlen(cmd) + 2);
-		full_path = ft_strjoin(dirs[i], "/");
-		full_path = ft_strjoin(full_path, cmd);
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
-		i++;
-	}
-	return (NULL);
-}
-
-void	exec(t_exec_fds e_fds, char *cmd, char **envp)
+static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 {
 	char	*bin_path;
 	char	**args;
@@ -75,11 +52,11 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	pid[0] = fork();
 	if (pid[0] == 0)
-		exec((t_exec_fds){.i = fds.i, .o = fds.pipe[1], .x = fds.pipe[0]},
+		_exec((t_exec_fds){.i = fds.i, .o = fds.pipe[1], .x = fds.pipe[0]},
 			argv[2], envp);
 	pid[1] = fork();
 	if (pid[1] == 0)
-		exec((t_exec_fds){.i = fds.pipe[0], .o = fds.o,
+		_exec((t_exec_fds){.i = fds.pipe[0], .o = fds.o,
 			.x = fds.pipe[1]}, argv[3], envp);
 	close(fds.pipe[0]);
 	close(fds.pipe[1]);
