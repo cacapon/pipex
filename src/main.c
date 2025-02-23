@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 11:03:19 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:21:33 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ char	*get_command_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	exec_common(t_fds fds, char *cmd, char **envp)
+void	exec(t_exec_fds e_fds, char *cmd, char **envp)
 {
 	char	*bin_path;
 	char	**args;
 
-	dup2(fds.in, STDIN_FILENO);
-	dup2(fds.out, STDOUT_FILENO);
-	close(fds.close);
+	dup2(e_fds.i, STDIN_FILENO);
+	dup2(e_fds.o, STDOUT_FILENO);
+	close(e_fds.x);
 	args = ft_split(cmd, ' ');
 	if (!args)
 		exit(1);
@@ -62,39 +62,39 @@ void	exec_common(t_fds fds, char *cmd, char **envp)
 	exit(1);
 }
 
-static int	_err_check(int i_o[2], t_fds *fds)
+static int	_err_check(t_fds *fds)
 {
-	if (i_o[0] < 0 || i_o[1] < 0)
+	if (fds->i < 0 || fds->o < 0)
 		return (perror("open"), 1);
-	if (pipe(fds->pipe) == -1)
+	if (fds->pipe_result == -1)
 		return (perror("pipe"), 1);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		i_o[2];
 	t_fds	fds;
 	pid_t	pid[2];
 
 	if (argc != 5)
 		return (1);
-	i_o[0] = open(argv[1], O_RDONLY);
-	i_o[1] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (_err_check(i_o, &fds))
+	fds.i = open(argv[1], O_RDONLY);
+	fds.o = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fds.pipe_result = pipe(fds.pipe);
+	if (_err_check(&fds))
 		return (1);
 	pid[0] = fork();
 	if (pid[0] == 0)
-		exec_common((t_fds){.in = i_o[0], .out = fds.pipe[1],
-			.close = fds.pipe[0]}, argv[2], envp);
+		exec((t_exec_fds){.i = fds.i, .o = fds.pipe[1], .x = fds.pipe[0]},
+			argv[2], envp);
 	pid[1] = fork();
 	if (pid[1] == 0)
-		exec_common((t_fds){.in = fds.pipe[0], .out = i_o[1],
-			.close = fds.pipe[1]}, argv[3], envp);
-	close(fds.pipe[1]);
+		exec((t_exec_fds){.i = fds.pipe[0], .o = fds.o,
+			.x = fds.pipe[1]}, argv[3], envp);
 	close(fds.pipe[0]);
-	close(i_o[0]);
-	close(i_o[1]);
+	close(fds.pipe[1]);
+	close(fds.i);
+	close(fds.o);
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
 	return (0);
