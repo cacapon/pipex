@@ -1,37 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   get_path.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:07:19 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 12:32:23 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/02/23 12:31:09 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/02/23 12:32:12 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef GET_PATH_H
+# define GET_PATH_H
 # include "libft.h"
-# include "get_path.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <unistd.h>
+# include <stddef.h>
 
-typedef struct s_fds
-{
-	int	i;
-	int	o;
-	int	pipe[2];
-	int	pipe_result;
-}		t_fds;
-
-typedef struct s_exec_fds
-{
-	int	i;
-	int	o;
-	int	x;
-}		t_exec_fds;
+char	*get_path(char **envp);
 
 #endif

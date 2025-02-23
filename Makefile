@@ -7,7 +7,7 @@ BLD_DIR = build
 SRC_DIR = src
 FT_DIR  = lib/libft
 
-SRCS = $(SRC_DIR)/main.c
+SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/get_path.c
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BLD_DIR)/%.o)
 
 INCS = -Iinc/ -Ilib/libft/
