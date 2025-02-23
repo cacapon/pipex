@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/22 10:44:09 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 11:03:19 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,12 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	pid[0] = fork();
 	if (pid[0] == 0)
-	{
-		fds = (t_fds){.in = i_o[0], .out = fds.pipe[1], .close = fds.pipe[0]};
-		exec_common(fds, argv[2], envp);
-	}
+		exec_common((t_fds){.in = i_o[0], .out = fds.pipe[1],
+			.close = fds.pipe[0]}, argv[2], envp);
 	pid[1] = fork();
 	if (pid[1] == 0)
-	{
-		fds = (t_fds){.in = fds.pipe[0], .out = i_o[1], .close = fds.pipe[1]};
-		exec_common(fds, argv[3], envp);
-	}
+		exec_common((t_fds){.in = fds.pipe[0], .out = i_o[1],
+			.close = fds.pipe[1]}, argv[3], envp);
 	close(fds.pipe[1]);
 	close(fds.pipe[0]);
 	close(i_o[0]);
