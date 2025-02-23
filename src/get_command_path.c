@@ -6,31 +6,74 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:27:35 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 12:39:36 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 14:22:56 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_command_path.h"
 
-char	*get_command_path(char *cmd, char **envp)
+/**
+ * @brief envpの中からPATHから始まる位置を返します。
+ * 
+ * @param envp 
+ * @return int 
+ */
+static int	_find_path_key_in_envp(char **envp)
 {
-	char	*path;
-	char	**dirs;
-	char	*full_path;
-	int		i;
+	int	i;
 
-	path = get_path(envp);
-	dirs = ft_split(path, ':');
 	i = 0;
-	while (dirs[i])
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	return (i);
+}
+
+/**
+ * @brief /bin/cmdの形式になるように文字を結合させます。
+ * 
+ * @param paths 
+ * @param cmd 
+ * @return char* 
+ */
+static char	*_join_path(char **paths, char *cmd)
+{
+	int		i;
+	char	*part_path;
+	char	*path;
+
+	i = 0;
+	while (paths[i])
 	{
-		full_path = ft_calloc(1, ft_strlen(dirs[i]) + ft_strlen(cmd) + 2);
-		full_path = ft_strjoin(dirs[i], "/");
-		full_path = ft_strjoin(full_path, cmd);
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		free(full_path);
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, X_OK) == 0)
+			return (path);
+		free(path);
 		i++;
 	}
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
 	return (NULL);
+}
+
+/**
+ * @brief コマンドのパスを取得します。
+ *
+ * @param cmd
+ * @param envp
+ * @return char*
+ */
+char	*get_command_path(char *cmd, char **envp)
+{
+	char	**paths;
+	int		i;
+
+	i = _find_path_key_in_envp(envp);
+	paths = ft_split(envp[i] + 5, ':');
+	if (!paths)
+		return (NULL);
+	return (_join_path(paths, cmd));
 }

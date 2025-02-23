@@ -6,11 +6,28 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 12:37:43 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 14:23:15 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+static void	_exec_free(char *bin_path, char **args)
+{
+	char	**p;
+
+	free(bin_path);
+	if (args)
+	{
+		p = args;
+		while (*p != NULL)
+		{
+			free(*p);
+			p++;
+		}
+	}
+	free(args);
+}
 
 static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 {
@@ -24,8 +41,17 @@ static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 	if (!args)
 		exit(1);
 	bin_path = get_command_path(args[0], envp);
-	if (execve(bin_path, args, envp) == -1)
+	if (!bin_path)
+	{
 		perror(args[0]);
+		_exec_free(bin_path, args);
+		exit(1);
+	}
+	if (execve(bin_path, args, envp) == -1)
+	{
+		perror(args[0]);
+		_exec_free(bin_path, args);
+	}
 	exit(1);
 }
 
@@ -56,8 +82,8 @@ int	main(int argc, char **argv, char **envp)
 			argv[2], envp);
 	pid[1] = fork();
 	if (pid[1] == 0)
-		_exec((t_exec_fds){.i = fds.pipe[0], .o = fds.o,
-			.x = fds.pipe[1]}, argv[3], envp);
+		_exec((t_exec_fds){.i = fds.pipe[0], .o = fds.o, .x = fds.pipe[1]},
+			argv[3], envp);
 	close(fds.pipe[0]);
 	close(fds.pipe[1]);
 	close(fds.i);

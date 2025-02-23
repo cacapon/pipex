@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:19 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 12:37:06 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 13:21:24 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include "libft.h"
 
 // custom include
-# include "get_path.h"
 # include "get_command_path.h"
 
 // struct
