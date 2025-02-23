@@ -7,7 +7,7 @@ BLD_DIR = build
 SRC_DIR = src
 FT_DIR  = lib/libft
 
-SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/get_path.c $(SRC_DIR)/get_command_path.c
+SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/get_command_path.c
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BLD_DIR)/%.o)
 
 INCS = -Iinc/ -Ilib/libft/
@@ -21,7 +21,7 @@ $(NAME): $(FT_DIR)/libft.a $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
 $(BLD_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(BLD_DIR)
+	@mkdir -p $(BLD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
 
 ## libft
