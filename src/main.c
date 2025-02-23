@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 11:21:33 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/02/23 12:19:19 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	exec(t_exec_fds e_fds, char *cmd, char **envp)
 	if (!args)
 		exit(1);
 	bin_path = get_command_path(args[0], envp);
-	execve(bin_path, args, envp);
+	if (execve(bin_path, args, envp) == -1)
+		perror(args[0]);
 	exit(1);
 }
 
