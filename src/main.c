@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/02 11:50:30 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:04:34 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 	bin_path = get_command_path(args[0], envp);
 	if (!bin_path)
 	{
-		perror(args[0]);
+		ft_putstr_fd(args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		_exec_free(bin_path, args);
 		exit(1);
 	}
