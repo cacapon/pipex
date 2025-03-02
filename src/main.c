@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 14:23:15 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/02 11:50:30 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 	dup2(e_fds.i, STDIN_FILENO);
 	dup2(e_fds.o, STDOUT_FILENO);
 	close(e_fds.x);
-	args = ft_split(cmd, ' ');
+	args = cmd_split(cmd, ' ');
 	if (!args)
 		exit(1);
 	bin_path = get_command_path(args[0], envp);
