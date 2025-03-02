@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:27:35 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 14:22:56 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:29:38 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
  */
 static int	_find_path_key_in_envp(char **envp)
 {
+	//TODO: pathが見つからないときの処理が必要
 	int	i;
 
 	i = 0;
@@ -71,6 +72,7 @@ char	*get_command_path(char *cmd, char **envp)
 	char	**paths;
 	int		i;
 
+	//TODO:PATHが見つからないとき別処理が必要
 	i = _find_path_key_in_envp(envp);
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
