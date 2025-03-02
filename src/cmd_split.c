@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:58:01 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/27 13:22:47 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/02 13:53:42 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	**cmd_split(char const *s, char c)
 	int		i;
 	char	**lst;
 
-	lst = (char **)calloc(_count_words(s, c) + 1, sizeof(char *));
+	lst = (char **)ft_calloc(_count_words(s, c) + 1, sizeof(char *));
 	if (!s || !lst)
 		return (0);
 	i = 0;
