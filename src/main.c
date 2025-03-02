@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/02 14:04:34 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:07:25 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	pid[2];
 
 	if (argc != 5)
-		return (1);
+		return (ft_putstr_fd("Error: Bad arguments\n", STDERR_FILENO), 1);
 	fds.i = open(argv[1], O_RDONLY);
 	fds.o = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	fds.pipe_result = pipe(fds.pipe);
