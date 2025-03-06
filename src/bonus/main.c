@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 16:10:09 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 16:12:04 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static void	_exec_free(char *bin_path, char **args)
 	}
 	free(args);
 }
-
-
 
 void	exec(char *cmd, char **ev)
 {
@@ -66,7 +64,7 @@ void	child_process(char *cmd, char **ev)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		exec(cmd, ev);
-	}		
+	}
 	else
 	{
 		close(fd[1]);
@@ -79,7 +77,7 @@ int	main(int ac, char **av, char **ev)
 {
 	int	i;
 	int	f_in;
-	int f_out;
+	int	f_out;
 
 	if (ac >= 5)
 	{

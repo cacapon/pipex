@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:27:35 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 15:56:56 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 16:12:25 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*get_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;
 	int		i;
-	
+
 	i = _find_path_key_in_envp(envp);
 	if (i == -1)
 	{
