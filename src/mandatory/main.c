@@ -6,11 +6,11 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 12:32:14 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 16:00:36 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "mandatory.h"
 
 static void	_exec_free(char *bin_path, char **args)
 {
@@ -40,7 +40,7 @@ static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 	args = cmd_split(cmd, ' ');
 	if (!args)
 		exit(1);
-	bin_path = get_command_path(args[0], envp);
+	bin_path = get_cmd_path(args[0], envp);
 	if (!bin_path)
 	{
 		ft_putstr_fd(args[0], STDERR_FILENO);

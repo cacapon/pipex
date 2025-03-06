@@ -6,11 +6,11 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:58:01 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/02 13:53:42 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 15:53:40 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_split.h"
+#include "common.h"
 
 static size_t	_quote_count(const char *s)
 {

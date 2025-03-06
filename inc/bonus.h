@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_command_path.h                                 :+:      :+:    :+:   */
+/*   bonus.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/23 12:31:09 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/23 13:21:20 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/06 16:07:37 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/06 16:11:35 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_COMMAND_PATH_H
-# define GET_COMMAND_PATH_H
-# include "libft.h"
-# include <stddef.h>
+#ifndef BONUS_H
+# define BONUS_H
 
-char	*get_command_path(char *cmd, char **envp);
+// library
+# include <sys/wait.h>
+
+// custom include
+# include "common.h"
+
+// struct
 
 #endif

@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   open_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:07:19 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/27 12:59:00 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/06 15:13:59 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/06 16:12:42 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "common.h"
 
-// library
-# include <fcntl.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <unistd.h>
-# include "libft.h"
-
-// custom include
-# include "get_command_path.h"
-# include "cmd_split.h"
-
-// struct
-typedef struct s_fds
+int	open_file(char *f_path, t_ftype i)
 {
-	int	i;
-	int	o;
-	int	pipe[2];
-	int	pipe_result;
-}		t_fds;
+	int	f;
 
-typedef struct s_exec_fds
-{
-	int	i;
-	int	o;
-	int	x;
-}		t_exec_fds;
-
-#endif
+	f = 0;
+	if (i == APPEND)
+		f = open(f_path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else if (i == NEW_EMPTY)
+		f = open(f_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (i == RDONLY)
+		f = open(f_path, O_RDONLY, 0777);
+	if (f == -1)
+		error("open_file: open failed.");
+	return (f);
+}

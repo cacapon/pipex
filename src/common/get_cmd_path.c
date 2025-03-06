@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_command_path.c                                 :+:      :+:    :+:   */
+/*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:27:35 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 12:33:31 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 16:12:25 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_command_path.h"
+#include "common.h"
 
 /**
  * @brief envpの中からPATHから始まる位置を返します。
@@ -71,7 +71,7 @@ static char	*_join_path(char **paths, char *cmd)
  * @param envp
  * @return char*
  */
-char	*get_command_path(char *cmd, char **envp)
+char	*get_cmd_path(char *cmd, char **envp)
 {
 	char	**paths;
 	int		i;

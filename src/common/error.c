@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_split.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 12:59:10 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/02/27 13:04:03 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/06 15:51:01 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/06 16:12:34 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_SPLIT_H
-# define CMD_SPLIT_H
-# include "libft.h"
+#include "common.h"
 
-typedef enum e_word_type
+void	error(char *mes)
 {
-	OUT_WORD,
-	IN_WORD,
-}		t_word_type;
-
-char	**cmd_split(char const *s, char c);
-
-#endif
+	perror(mes);
+	exit(EXIT_FAILURE);
+}
