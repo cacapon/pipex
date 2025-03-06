@@ -1,2 +1,0 @@
-static int	_err_check(t_fds *fds)
-int	main(int argc, char **argv, char **envp)

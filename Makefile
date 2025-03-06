@@ -26,9 +26,6 @@ else
 		   $(CMN_SRCS:$(CMN_S_DIR)/%.c=$(BLD_DIR)/%.o)
 endif
 
-$(info $(OBJS))
-$(info $(BLD_DIR)/main.o $(MAN_S_DIR)/main.c)
-
 INCS = -Iinc/ -Ilib/libft/
 LIBS = -L$(FT_DIR) -lft
 
@@ -36,14 +33,19 @@ LIBS = -L$(FT_DIR) -lft
 all: $(NAME)
 bonus: $(NAME)
 
-
 ## main
 $(NAME): $(FT_DIR)/libft.a $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
+ifeq ($(MAKECMDGOALS), bonus)
+$(BLD_DIR)/%.o: $(BNS_S_DIR)/%.c
+	@mkdir -p $(BLD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
+else
 $(BLD_DIR)/%.o: $(MAN_S_DIR)/%.c
 	@mkdir -p $(BLD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
+endif
 
 $(BLD_DIR)/%.o: $(CMN_S_DIR)/%.c
 	@mkdir -p $(BLD_DIR)
