@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/02 14:30:22 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 12:32:14 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@ int	main(int argc, char **argv, char **envp)
 	t_fds	fds;
 	pid_t	pid[2];
 
-	
-	ft_putstr_fd("path:", STDERR_FILENO);	// after rm
-	ft_putstr_fd(get_command_path(argv[2], envp), STDERR_FILENO); // arter rm
-	ft_putstr_fd("\n", STDERR_FILENO); // after rm
 	if (argc != 5)
 		return (ft_putstr_fd("Error: Bad arguments\n", STDERR_FILENO), 1);
 	fds.i = open(argv[1], O_RDONLY);
