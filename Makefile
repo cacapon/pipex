@@ -1,17 +1,33 @@
 # Variables
 NAME = pipex
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
+# directory
 BLD_DIR = build
-SRC_DIR = src
 FT_DIR  = lib/libft
+MAN_S_DIR = src/mandatory
+CMN_S_DIR = src/common
+BNS_S_DIR = src/bonus
 
-SRCS = $(SRC_DIR)/main.c $(SRC_DIR)/get_command_path.c $(SRC_DIR)/cmd_split.c
+# src
+MAN_SRC = main.c
+BNS_SRC = main.c
+CMN_SRC = get_cmd_path.c cmd_split.c open_file.c error.c
+CMN_SRCS = $(addprefix $(CMN_S_DIR)/,$(CMN_SRC))
+
 ifeq ($(MAKECMDGOALS), bonus)
-	SRCS = $(SRC_DIR)/main_bonus.c $(SRC_DIR)/get_command_path.c $(SRC_DIR)/cmd_split.c
+	BNS_SRCS = $(addprefix $(BNS_S_DIR)/,$(BNS_SRC))
+	OBJS = $(BNS_SRCS:$(BNS_S_DIR)/%.c=$(BLD_DIR)/%.o) \
+		   $(CMN_SRCS:$(CMN_S_DIR)/%.c=$(BLD_DIR)/%.o)
+else
+	MAN_SRCS = $(addprefix $(MAN_S_DIR)/,$(MAN_SRC))
+	OBJS = $(MAN_SRCS:$(MAN_S_DIR)/%.c=$(BLD_DIR)/%.o) \
+		   $(CMN_SRCS:$(CMN_S_DIR)/%.c=$(BLD_DIR)/%.o)
 endif
-OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BLD_DIR)/%.o)
+
+$(info $(OBJS))
+$(info $(BLD_DIR)/main.o $(MAN_S_DIR)/main.c)
 
 INCS = -Iinc/ -Ilib/libft/
 LIBS = -L$(FT_DIR) -lft
@@ -20,11 +36,16 @@ LIBS = -L$(FT_DIR) -lft
 all: $(NAME)
 bonus: $(NAME)
 
+
 ## main
 $(NAME): $(FT_DIR)/libft.a $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBS)
 
-$(BLD_DIR)/%.o: $(SRC_DIR)/%.c
+$(BLD_DIR)/%.o: $(MAN_S_DIR)/%.c
+	@mkdir -p $(BLD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
+
+$(BLD_DIR)/%.o: $(CMN_S_DIR)/%.c
 	@mkdir -p $(BLD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INCS)
 

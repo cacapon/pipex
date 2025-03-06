@@ -6,11 +6,11 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:54:18 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 15:58:00 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 16:00:25 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMON__H
+#ifndef COMMON_H
 # define COMMON_H
 
 // define
