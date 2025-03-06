@@ -6,10 +6,11 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:27:35 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 12:33:31 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 15:05:23 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h> //TODO after rm
 #include "get_command_path.h"
 
 /**
@@ -75,7 +76,8 @@ char	*get_command_path(char *cmd, char **envp)
 {
 	char	**paths;
 	int		i;
-
+	
+	fprintf(stderr, "DEBUG:get_cmd_path(%s) start\n", cmd);
 	i = _find_path_key_in_envp(envp);
 	if (i == -1)
 	{
