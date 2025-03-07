@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 16:25:26 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 11:19:18 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,26 @@
 static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 {
 	char	*bin_path;
-	char	**args;
+	char	**cmds;
 
 	dup2(e_fds.i, STDIN_FILENO);
 	dup2(e_fds.o, STDOUT_FILENO);
 	close(e_fds.x);
-	args = cmd_split(cmd, ' ');
-	if (!args)
+	cmds = cmd_split(cmd, ' ');
+	if (!cmds)
 		exit(1);
-	bin_path = get_cmd_path(args[0], envp);
+	bin_path = get_cmd_path(cmds[0], envp);
 	if (!bin_path)
 	{
-		ft_putstr_fd(args[0], STDERR_FILENO);
+		ft_putstr_fd(cmds[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		exec_free(bin_path, args);
+		exec_free(bin_path, cmds);
 		exit(1);
 	}
-	if (execve(bin_path, args, envp) == -1)
+	if (execve(bin_path, cmds, envp) == -1)
 	{
-		error(args[0]);
-		exec_free(bin_path, args);
+		error(cmds[0]);
+		exec_free(bin_path, cmds);
 	}
 	exit(1);
 }

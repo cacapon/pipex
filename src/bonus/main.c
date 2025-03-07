@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 11:15:20 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 11:20:06 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	exec(char *cmd, char **ev)
 {
-	int		i;
 	char	*bin_path;
 	char	**cmds;
 
-	i = -1;
 	cmds = ft_split(cmd, ' ');
 	bin_path = get_cmd_path(cmds[0], ev);
 	if (!bin_path)
@@ -29,7 +27,7 @@ void	exec(char *cmd, char **ev)
 		exit(1);
 	}
 	if (execve(bin_path, cmds, ev) == -1)
-		error("exec:execve failed.");
+		error(cmds[0]);
 }
 
 void	child_process(char *cmd, char **ev)
