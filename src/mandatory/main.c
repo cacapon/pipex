@@ -6,28 +6,11 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 16:00:36 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/06 16:25:26 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mandatory.h"
-
-static void	_exec_free(char *bin_path, char **args)
-{
-	char	**p;
-
-	free(bin_path);
-	if (args)
-	{
-		p = args;
-		while (*p != NULL)
-		{
-			free(*p);
-			p++;
-		}
-	}
-	free(args);
-}
 
 static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 {
@@ -45,13 +28,13 @@ static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 	{
 		ft_putstr_fd(args[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		_exec_free(bin_path, args);
+		exec_free(bin_path, args);
 		exit(1);
 	}
 	if (execve(bin_path, args, envp) == -1)
 	{
-		perror(args[0]);
-		_exec_free(bin_path, args);
+		error(args[0]);
+		exec_free(bin_path, args);
 	}
 	exit(1);
 }
@@ -59,9 +42,9 @@ static void	_exec(t_exec_fds e_fds, char *cmd, char **envp)
 static int	_err_check(t_fds *fds)
 {
 	if (fds->i < 0 || fds->o < 0)
-		return (perror("open"), 1);
+		error("open");
 	if (fds->pipe_result == -1)
-		return (perror("pipe"), 1);
+		error("pipe");
 	return (0);
 }
 

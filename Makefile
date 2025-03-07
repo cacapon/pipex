@@ -13,7 +13,7 @@ BNS_S_DIR = src/bonus
 # src
 MAN_SRC = main.c
 BNS_SRC = main.c
-CMN_SRC = get_cmd_path.c cmd_split.c open_file.c error.c
+CMN_SRC = get_cmd_path.c cmd_split.c open_file.c error.c exec_free.c
 CMN_SRCS = $(addprefix $(CMN_S_DIR)/,$(CMN_SRC))
 
 ifeq ($(MAKECMDGOALS), bonus)
