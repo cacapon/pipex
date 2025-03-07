@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   dup_close.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:18:05 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/07 12:13:41 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/07 12:16:44 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mandatory.h"
+#include "common.h"
 
-int	main(int ac, char **av, char **ev)
+/**
+ * @brief oldfdとstdin/stdoutに接続してoldfdを閉じます。
+ *
+ * @param oldfd
+ * @param stdfd
+ */
+void	dup_close(int oldfd, int stdfd)
 {
-	t_fds	fds;
-
-	if (ac == 5)
-	{
-		fds.o = open_file(av[ac - 1], NEW_EMPTY);
-		fds.i = open_file(av[1], RDONLY);
-		dup_close(fds.i, STDIN_FILENO);
-		child_process(av[2], ev);
-		dup_close(fds.o, STDOUT_FILENO);
-		exec(av[ac - 2], ev);
-	}
-	error("Error: Bad argments");
+	dup2(oldfd, stdfd);
+	close(oldfd);
 }

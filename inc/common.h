@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:54:18 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:10:19 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 12:16:59 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int		open_file(char *f_path, t_ftype i);
 void	exec_free(char *bin_path, char **args);
 void	child_process(char *cmd, char **ev);
 void	exec(char *cmd, char **ev);
+void	dup_close(int oldfd, int stdfd);
 
 #endif
