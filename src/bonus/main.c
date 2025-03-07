@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 11:20:06 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 11:46:42 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	exec(char *cmd, char **ev)
 	char	**cmds;
 
 	cmds = ft_split(cmd, ' ');
+	if (!cmds)
+		error("exec");
 	bin_path = get_cmd_path(cmds[0], ev);
 	if (!bin_path)
 	{
@@ -44,12 +46,14 @@ void	child_process(char *cmd, char **ev)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 		exec(cmd, ev);
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
@@ -66,9 +70,11 @@ int	main(int ac, char **av, char **ev)
 		f_out = open_file(av[ac - 1], NEW_EMPTY);
 		f_in = open_file(av[1], RDONLY);
 		dup2(f_in, STDIN_FILENO);
+		close(f_in);
 		while (i < ac - 2)
 			child_process(av[i++], ev);
 		dup2(f_out, STDOUT_FILENO);
+		close(f_out);
 		exec(av[ac - 2], ev);
 	}
 	error("Error: Bad argments");
