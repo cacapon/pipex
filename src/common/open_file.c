@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:13:59 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 16:12:42 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:21:21 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int	open_file(char *f_path, t_ftype i)
 	else if (i == RDONLY)
 		f = open(f_path, O_RDONLY, 0777);
 	if (f == -1)
-		error("open_file: open failed.");
+	{
+		error_mes(f_path, "open failed");
+		exit(EXIT_FAILURE);
+	}
 	return (f);
 }

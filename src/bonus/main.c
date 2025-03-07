@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:58:51 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:18:14 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int	main(int ac, char **av, char **ev)
 		parent_process(av[ac - 2], ev);
 		return (0);
 	}
-	error("Error: Bad argments");
+	error_mes("pipex", "Bad argments");
 }
