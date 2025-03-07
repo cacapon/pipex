@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:54:18 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:03:41 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 12:10:19 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-// structs
+// enum
 typedef enum e_word_type
 {
 	OUT_WORD,
@@ -35,6 +35,13 @@ typedef enum e_ftype
 	NEW_EMPTY = 1,
 	RDONLY = 2,
 }		t_ftype;
+
+// structs
+typedef struct s_fds
+{
+	int	i;
+	int	o;
+}		t_fds;
 
 // functions
 char	**cmd_split(char const *s, char c);
