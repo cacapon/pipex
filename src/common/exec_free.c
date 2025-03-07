@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:58:51 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/06 16:24:22 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/06 16:25:13 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus.h"
+#include "common.h"
 
-int	main(int ac, char **av, char **ev)
+void	exec_free(char *bin_path, char **args)
 {
-	int		i;
-	t_fds	fds;
+	char	**p;
 
-	if (ac >= 5)
+	free(bin_path);
+	if (args)
 	{
-		i = 2;
-		fds.o = open_file(av[ac - 1], NEW_EMPTY);
-		fds.i = open_file(av[1], RDONLY);
-		dup_close(fds.i, STDIN_FILENO);
-		while (i < ac - 2)
-			child_process(av[i++], ev);
-		dup_close(fds.o, STDOUT_FILENO);
-		parent_process(av[ac - 2], ev);
-		return (0);
+		p = args;
+		while (*p != NULL)
+		{
+			free(*p);
+			p++;
+		}
 	}
-	error("Error: Bad argments");
+	free(args);
 }

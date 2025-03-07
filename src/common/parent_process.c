@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parent_process.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:07:46 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:58:51 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/07 11:59:13 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/07 12:56:14 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus.h"
+#include "common.h"
 
-int	main(int ac, char **av, char **ev)
+void	parent_process(char *cmd, char **ev)
 {
-	int		i;
-	t_fds	fds;
+	pid_t	pid;
 
-	if (ac >= 5)
-	{
-		i = 2;
-		fds.o = open_file(av[ac - 1], NEW_EMPTY);
-		fds.i = open_file(av[1], RDONLY);
-		dup_close(fds.i, STDIN_FILENO);
-		while (i < ac - 2)
-			child_process(av[i++], ev);
-		dup_close(fds.o, STDOUT_FILENO);
-		parent_process(av[ac - 2], ev);
-		return (0);
-	}
-	error("Error: Bad argments");
+	pid = fork();
+	if (pid == -1)
+		error("fork");
+	if (pid == 0)
+		exec(cmd, ev);
+	else
+		waitpid(pid, NULL, 0);
 }
