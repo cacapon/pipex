@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:54:18 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 13:09:00 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:51:26 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	error_mes(char *cmd, char *mes);
 char	*get_cmd_path(char *cmd, char **envp);
 int		open_file(char *f_path, t_ftype i);
 void	exec_free(char *bin_path, char **args);
-void	child_process(char *cmd, char **ev);
-void	parent_process(char *cmd, char **ev);
+pid_t	child_process(char *cmd, char **ev);
+pid_t	parent_process(char *cmd, char **ev);
 void	exec(char *cmd, char **ev);
 void	dup_close(int oldfd, int stdfd);
 

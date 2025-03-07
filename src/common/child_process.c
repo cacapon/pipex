@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 11:59:13 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 13:16:49 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 14:00:34 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	_error(char *mes)
 	exit(EXIT_FAILURE);
 }
 
-void	child_process(char *cmd, char **ev)
+pid_t	child_process(char *cmd, char **ev)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -38,6 +38,7 @@ void	child_process(char *cmd, char **ev)
 	{
 		close(fd[1]);
 		dup_close(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		return (pid);
 	}
+	return (-1);
 }
