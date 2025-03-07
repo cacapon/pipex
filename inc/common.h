@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:54:18 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:56:52 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:09:00 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_fds
 
 // functions
 char	**cmd_split(char const *s, char c);
-void	error(char *mes);
+void	error_mes(char *cmd, char *mes);
 char	*get_cmd_path(char *cmd, char **envp);
 int		open_file(char *f_path, t_ftype i);
 void	exec_free(char *bin_path, char **args);

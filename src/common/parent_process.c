@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 11:59:13 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:56:14 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:12:52 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	parent_process(char *cmd, char **ev)
 
 	pid = fork();
 	if (pid == -1)
-		error("fork");
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
 	if (pid == 0)
 		exec(cmd, ev);
 	else
