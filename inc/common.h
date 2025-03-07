@@ -6,7 +6,7 @@
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:54:18 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/06 16:24:58 by ttsubo           ###   ########.fr       */
+/*   Updated: 2025/03/07 12:03:41 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 // includes
 # include "libft.h"
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -41,5 +42,7 @@ void	error(char *mes);
 char	*get_cmd_path(char *cmd, char **envp);
 int		open_file(char *f_path, t_ftype i);
 void	exec_free(char *bin_path, char **args);
+void	child_process(char *cmd, char **ev);
+void	exec(char *cmd, char **ev);
 
 #endif

@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandatory.h                                        :+:      :+:    :+:   */
+/*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ttsubo <ttsubo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 19:07:19 by ttsubo            #+#    #+#             */
-/*   Updated: 2025/03/07 12:03:51 by ttsubo           ###   ########.fr       */
+/*   Created: 2025/03/07 11:59:13 by ttsubo            #+#    #+#             */
+/*   Updated: 2025/03/07 11:59:44 by ttsubo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MANDATORY_H
-# define MANDATORY_H
+#include "common.h"
 
-// custom include
-# include "common.h"
-
-// struct
-typedef struct s_fds
+void	child_process(char *cmd, char **ev)
 {
-	int	i;
-	int	o;
-	int	pipe[2];
-	int	pipe_result;
-}		t_fds;
+	pid_t	pid;
+	int		fd[2];
 
-typedef struct s_exec_fds
-{
-	int	i;
-	int	o;
-	int	x;
-}		t_exec_fds;
-
-#endif
+	if (pipe(fd) == -1)
+		error("pipe");
+	pid = fork();
+	if (pid == -1)
+		error("fork");
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		exec(cmd, ev);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		waitpid(pid, NULL, 0);
+	}
+}
